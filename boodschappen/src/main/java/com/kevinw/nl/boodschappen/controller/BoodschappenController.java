@@ -3,6 +3,7 @@ package com.kevinw.nl.boodschappen.controller;
 import com.kevinw.nl.boodschappen.model.User;
 import com.kevinw.nl.boodschappen.repository.BoodschappenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,7 @@ public class BoodschappenController {
     BoodschappenRepository boodschappenRepository;
 
     @RequestMapping("/boodschappen")
+    @CrossOrigin(origins = "http://localhost:3000")
     public List<User> boodschappen() {
         List<User> users = boodschappenRepository.findAll();
         return users;
