@@ -1,6 +1,8 @@
 import * as React from 'react';
+import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import './../node_modules/bootstrap/dist/js/bootstrap.min.js';
 import './App.css';
-import UserList from './UserList';
+import Boodschappen from './Boodschappen';
 
 const logo = require('./logo.svg');
 
@@ -10,9 +12,11 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo"/>
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Please login to continue</h1>
         </header>
-        <UserList/>
+        <div className="container">          
+          <Boodschappen />
+        </div>
       </div>
     );
   }
