@@ -33,8 +33,9 @@ class Boodschappen extends React.Component<BoodschappenProps, BoodschappenState>
   }
 
   handleSubmit(event: any) {
-    event.preventDefault();
+    event.preventDefault();    
     var data = {name: this.state.productname, category: this.state.productcategory};
+    window.location.reload();
     fetch('http://localhost:8081/products', {
       body: JSON.stringify(data),
       method: 'PUT',
