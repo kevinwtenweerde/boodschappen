@@ -13,8 +13,8 @@ public class LoginService {
 
     public boolean login(String username, String password) {
         User user = myUserRepository.findAll().stream()
-            .filter(u -> u.getUsername().equals(username))
-            .findFirst().orElse(null);
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst().orElse(null);
         return user != null && user.getPassword().equals(password);
     }
 }

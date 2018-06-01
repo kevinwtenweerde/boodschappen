@@ -1,7 +1,7 @@
 package com.kevinw.nl.boodschappen.controller;
 
-import com.kevinw.nl.boodschappen.model.Product;
-import com.kevinw.nl.boodschappen.service.ProductService;
+import com.kevinw.nl.boodschappen.model.Recipe;
+import com.kevinw.nl.boodschappen.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,28 +16,27 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/recipes")
 @CrossOrigin(origins = "http://localhost:3000")
-public class ProductController {
+public class RecipeController {
     @Autowired
-    private ProductService myProductService;
+    private RecipeService myRecipeService;
 
     @RequestMapping(method = RequestMethod.GET)
-
-    public List<Product> allProducts() {
-        return myProductService.getAllProducts();
+    public List<Recipe> allRecipes() {
+        return myRecipeService.getAllRecipes();
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.CREATED)
-    public void addProduct(@Valid @RequestBody Product product) {
-        myProductService.createProduct(product);
+    public void addRecipe(@Valid @RequestBody Recipe recipe) {
+        myRecipeService.createRecipe(recipe);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void removeProduct(@RequestParam String id) {
-        myProductService.removeProduct(id);
+    public void removeRecipe(@RequestParam String id) {
+        myRecipeService.removeRecipe(id);
     }
 
 }

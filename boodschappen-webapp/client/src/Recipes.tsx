@@ -8,28 +8,33 @@ interface Product {
   category: string;
 }
 
-interface BoodschappenProps {
-}
-
-interface BoodschappenState {
+interface Recipe {
+  id: string;
+  name: string;
+  category: string;
   products: Array<Product>;
-  isLoading: boolean;
-  productname: string;
-  productcategory: string;
-  deleteproductid: string;
 }
 
-class Boodschappen extends React.Component<BoodschappenProps, BoodschappenState> {
+interface RecipesProps {
+}
 
-  constructor(props: BoodschappenProps) {
+interface RecipesState {
+  recipes: Array<Recipe>;
+  isLoading: boolean;
+  newRecipeName: string;
+  deleteRecipeId: string;
+}
+
+class Recipes extends React.Component<RecipesProps, RecipesState> {
+
+  constructor(props: RecipesProps) {
     super(props);
 
     this.state = {
-      products: [],
+      recipes: [],
       isLoading: false,
-      productname: '',
-      productcategory: '',
-      deleteproductid: ''
+      newRecipeName: '',
+      deleteRecipeId: ''
     };
     
     this.handleChange = this.handleChange.bind(this);
@@ -38,9 +43,9 @@ class Boodschappen extends React.Component<BoodschappenProps, BoodschappenState>
 
   handleSubmit(event: any) {
     event.preventDefault();    
-    var data = {name: this.state.productname, category: this.state.productcategory};
+    var data = {name: this.state.newRecipeName};
     window.location.reload();
-    fetch('http://localhost:8081/products', {
+    fetch('http://localhost:8081/recipes', {
       body: JSON.stringify(data),
       method: 'PUT',
       mode: 'cors',
@@ -54,7 +59,7 @@ class Boodschappen extends React.Component<BoodschappenProps, BoodschappenState>
 
   handleDelete(event: any) {
     event.preventDefault();
-    fetch('http://localhost:8081/products?id=' + event.target.id , {      
+    fetch('http://localhost:8081/recipes?id=' + event.target.id , {      
       method: 'DELETE',
       mode: 'cors',
       cache: 'no-cache',      
@@ -73,13 +78,13 @@ class Boodschappen extends React.Component<BoodschappenProps, BoodschappenState>
   componentDidMount() {
     this.setState({isLoading: true});
 
-    fetch('http://localhost:8081/products', {method: 'GET'})
+    fetch('http://localhost:8081/recipes', {method: 'GET'})
       .then(response => response.json())
-      .then(data => this.setState({products: data, isLoading: false}));
+      .then(data => this.setState({recipes: data, isLoading: false}));
   }
 
   render() {
-    const {products, isLoading} = this.state;
+    const {recipes, isLoading} = this.state;
 
     if (isLoading) {
       return <p>Loading...</p>;
@@ -90,20 +95,24 @@ class Boodschappen extends React.Component<BoodschappenProps, BoodschappenState>
         <div>
           <div className="row">
             <div className="col-sm-4">
-              <h3>Naam</h3>
-            </div>
-            <div className="col-sm-4">
-              <h3>Categorie</h3>
-            </div>
+              <h3>Recept</h3>
+            </div>            
           </div>
-          {products.map((product: Product) =>
-            <div key={product.id} className="row space">
-              <div className="col-sm-4">{product.name}</div>
-              <div className="col-sm-4">{product.category}</div>
+          {recipes.map((recipe: Recipe) => 
+            <div key={recipe.id} className="row space">
+              <div className="col-sm-4">{recipe.name}</div>
               <div className="col-sm-4">
-                <button className="btn btn-dark" onClick={this.handleDelete} id={product.id}>x</button>
+                {recipe.products.map((prod: Product) =>
+                  <div key={prod.id} className="row">
+                    <div className="col-sm-6">{prod.name}</div>
+                    <div className="col-sm-6">{prod.category}</div>
+                  </div>
+                )}
               </div>
-            </div>
+              <div className="col-sm-4">
+                <button className="btn btn-dark" onClick={this.handleDelete} id={recipe.id}>x</button>
+              </div>              
+            </div>            
           )}
         </div>
         <div className="row justify-content-center">
@@ -112,21 +121,12 @@ class Boodschappen extends React.Component<BoodschappenProps, BoodschappenState>
               <input 
                 type="text" 
                 className="form-control" 
-                name="productname" 
-                placeholder="Naam nieuw product"
-                value={this.state.productname} 
+                name="newRecipeName" 
+                placeholder="Naam nieuw recept"
+                value={this.state.newRecipeName} 
                 onChange={this.handleChange} 
                 // tslint:disable-next-line:jsx-alignment
-                />
-              <input 
-                type="text" 
-                className="form-control" 
-                name="productcategory" 
-                placeholder="Category nieuw product"
-                value={this.state.productcategory} 
-                onChange={this.handleChange} 
-                // tslint:disable-next-line:jsx-alignment
-                />      
+                />    
               <button className="btn btn-lg btn-primary btn-block" type="submit">Add</button>
             </form>
           </div>
@@ -136,4 +136,4 @@ class Boodschappen extends React.Component<BoodschappenProps, BoodschappenState>
   }
 }
 
-export default Boodschappen;
+export default Recipes;

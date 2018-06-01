@@ -18,7 +18,15 @@ public class ProductService {
     }
 
     public void createProduct(Product product) {
-//        System.out.println(product.getId());
         myProductRepository.save(product);
+    }
+
+    public void removeProduct(String id) {
+        Product productToDelete = myProductRepository.findById(Long.parseLong(id)).get();
+        myProductRepository.delete(productToDelete);
+    }
+
+    public Product getProductById(String id) {
+        return myProductRepository.findById(Long.parseLong(id)).get();
     }
 }
